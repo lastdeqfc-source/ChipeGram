@@ -24,7 +24,6 @@
     <string name="OEGeneralFilterZalgo">Фильтровать «Zalgo»</string>
     <string name="OEGeneralFilterZalgoInfo">Убирает комбинируемые символы, ломающие вёрстку текста: Z̷͍͌ā̸̜l̸̞̂g̷͍̝o̶̩̓ превращается в Zalgo.</string>
 
-
     <!-- Download Speed Boost -->
     <string name="OEGeneralSpeedHeader">Ускорение загрузки</string>
     <string name="OEGeneralNetworkSpeedHeader">Сеть и загрузка</string>
@@ -54,8 +53,6 @@
     <string name="OEGeneralArchiveOnPull">Открывать архив потягиванием</string>
     <string name="OEGeneralDisableUnarchiveSwipe">Отключить свайп «Из архива»</string>
     <string name="OEGeneralDisableUnarchiveSwipeInfo">Свайп влево не будет убирать чат из архива.</string>
-
-    <!-- Google -->
 
     <!-- Settings Management -->
     <string name="OEGeneralExportEtgSettings">Экспорт настроек</string>
@@ -107,85 +104,4 @@
     <string name="OEGeneralContentCapture">Доступ системы к тексту на экране</string>
     <string name="OEGeneralContentCaptureInfo">Нужен для Live Translate на Pixel и системных подсказок. Пока выключено, система не видит текст чатов, а списки листаются плавнее.</string>
     <string name="OEGeneralMapsHeader">Карты</string>
-</resources>
-ocal">Это устройство</string>
-    <string name="OECloudRemote">Облако</string>
-    <string name="OECloudChecking">проверка…</string>
-    <string name="OECloudActions">Действия</string>
-    <string name="OECloudUpload">Сохранить в облако</string>
-    <string name="OECloudUploading">Сохранение…</string>
-    <string name="OECloudUploaded">Настройки сохранены в облако</string>
-    <string name="OECloudRestore">Восстановить из облака</string>
-    <string name="OECloudRestoring">Восстановление…</string>
-    <string name="OECloudRestoreAction">Восстановить</string>
-    <string name="OECloudRestoreConfirm">Текущие настройки заменятся копией из облака, после чего приложение перезапустится.</string>
-    <string name="OECloudClear">Очистить облако</string>
-    <string name="OECloudClearing">Очистка…</string>
-    <string name="OECloudClearAction">Очистить</string>
-    <string name="OECloudClearConfirm">Копия в облаке будет удалена. Настройки на этом устройстве останутся как есть.</string>
-    <string name="OECloudOptions">Параметры</string>
-    <string name="OECloudAutoSync">Автосинхронизация</string>
-    <string name="OECloudAutoSyncInfo">Сохранять после каждого изменения настроек</string>
-    <string name="OEGeneralLastFmDebug">Отладка Last.fm</string>
-    <string name="OEGeneralLastFmDebugTest">Проверить</string>
-    <string name="OEGeneralLastFmDebugMode">Режим</string>
-    <string name="OEGeneralLastFmDebugPage">WebView</string>
-    <string name="OEGeneralLastFmDebugCookies">Сбросить куки</string>
-    <string name="OEGeneralLastFmDebugClear">Очистить</string>
-    <string name="OEGeneralLastFmDebugCopy">Копировать</string>
-    <string name="OEGeneralLastFmStageDownload">Скачиваю трек…</string>
-    <string name="OEGeneralLastFmStagePrepare">Добавляю метку…</string>
-    <string name="OEGeneralLastFmStageUpload">Загружаю трек…</string>
-    <string name="OEGeneralLastFmStageSave">Сохраняю в профиль…</string>
-    <string name="OEAyuSaveReadDate">Сохранять дату прочтения</string>
-    <string name="OEAyuGhostHeader">Призрак</string>
-    <string name="OEAyuSavingHeader">Сохранение</string>
-    <string name="OEAyuDeletedHeader">Удалённые в чате</string>
-    <string name="OEAyuOtherHeader">Прочее</string>
-    <string name="OEAyuDangerHeader">Опасная зона</string>
-    <string name="OEAyuSaveReadDateInfo">Запоминает, когда ваши сообщения прочитали и прослушали. Время видно в меню сообщения, если Telegram его не показывает.</string>
-    <string name="OEAyuPlayedTodayAt">прослушано в %s</string>
-    <string name="OEAyuPlayedYesterdayAt">прослушано вчера в %s</string>
-    <string name="OEAyuPlayedDateTimeAt">прослушано %1$s в %2$s</string>
-    <string name="OEAyuForwardLoadingMedia">Загрузка медиа</string>
-    <string name="OEAyuForwardLoadingCount">Файлов: %1$d из %2$d</string>
-    <string name="OEAyuForwardLoadFailed">Не удалось загрузить медиа для пересылки</string>
-    <string name="OEUpdateAvailable">Доступно обновление: %1$s</string>
-    <string name="OEUpdateInstall">Обновить</string>
-    <string name="OEUpdateInstallSize">Обновить (%1$s)</string>
-    <string name="OEUpdateLater">Позже</string>
-    <string name="OEUpdateSkip">Пропустить версию</string>
-    <string name="OEUpdateDownloading">Загрузка обновления</string>
-    <string name="OEUpdateDownloadFailed">Не удалось скачать обновление</string>
-    <string name="OEUpdateCheckFailed">Не удалось проверить обновления</string>
-    <string name="OEUserLookupTitle">Запуск @usinfobot</string>
-    <string name="OEUserLookupStart">Чтобы найти пользователя по ID, нужен бот **@usinfobot**. Он работает только после запуска, поэтому мы отправим ему /start. В списке чатов появится чат с ним.</string>
-    <string name="OEUserLookupStartButton">Запустить</string>
-    <string name="OEUserLookupNotFound">Пользователь %1$d не найден</string>
-    <string name="OEUpdateTitle">Доступно обновление</string>
-    <string name="OEUpdateDownloadProgress">%1$s из %2$s</string>
-    <string name="OEAyuSaveInArchived">Сохранять в архивных чатах</string>
-    <string name="OEAyuSaveInArchivedInfo">Удалённые и изменённые сообщения из чатов в архиве тоже сохраняются.</string>
-    <string name="OEAyuDatabaseExport">Экспорт базы</string>
-    <string name="OEAyuDatabaseImport">Импорт базы</string>
-    <string name="OEAyuDatabaseImportInfo">Удалённые и изменённые сообщения из файла добавятся к уже сохранённым. Подходят выгрузки exteraless и AyuGram. Медиа из другого приложения могут не открыться.</string>
-    <string name="OEAyuDatabaseImportDone">Добавлено сообщений: %1$d</string>
-    <string name="OEAyuDatabaseImportFailed">Не удалось импортировать файл</string>
-    <string name="OEAyuRegexReversed">Обратный</string>
-    <string name="OEAyuRegexReversedInfo">Скрывать сообщения, которые не совпадают с выражением</string>
-    <string name="OEUpdaterChecking">Проверяем обновления…</string>
-    <string name="OEUpdaterLatest">У вас последняя версия</string>
-    <string name="OEUpdaterAvailable">Доступна версия %1$s</string>
-    <string name="OEUpdaterFailedInfo">Проверьте подключение и попробуйте ещё раз</string>
-    <string name="OEUpdaterCheckedJustNow">Проверено только что</string>
-    <string name="OEUpdaterCheckedAt">Проверено %1$s</string>
-    <string name="OEUpdaterCheckAgain">Проверить снова</string>
-    <string name="OEUpdaterChannel">Автопроверка</string>
-    <string name="OEUpdaterChannelOff">Выкл</string>
-    <string name="OEUpdaterChannelStable">Релизы</string>
-    <string name="OEUpdaterChannelBeta">Бета</string>
-    <string name="OEUpdaterChannelOffInfo">Обновления проверяются, только когда вы нажимаете на логотип.</string>
-    <string name="OEUpdaterChannelStableInfo">Раз в 6 часов проверяются новые релизы на GitHub.</string>
-    <string name="OEUpdaterChannelBetaInfo">Ещё и пре-релизы с GitHub — раньше, чем они станут релизами.</string>
-    <string name="OEUpdaterAllReleases">Все релизы на GitHub</string>
 </resources>
