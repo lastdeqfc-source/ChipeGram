@@ -61,13 +61,13 @@
     <string name="OEGeneralExportEtgSettings">Экспорт настроек</string>
     <string name="OEGeneralImportEtgSettings">Импорт настроек</string>
     <string name="OEGeneralExportFormatFull">Все настройки (.json)</string>
-    <string name="OEGeneralExportFormatExtera">Формат exteraGram (.extera)</string>
+    <string name="OEGeneralExportFormatExtera">Формат ChiperaGram (.extera)</string>
     <string name="OEGeneralImportEtgConfirm">Настроек в файле: %1$d. Текущие значения будут заменены.</string>
-    <string name="OEGeneralImportEtgEmpty">В файле нет настроек exteraGram.</string>
+    <string name="OEGeneralImportEtgEmpty">В файле нет настроек ChiperaGram.</string>
     <string name="OEGeneralImportEtgDone">Импортировано настроек: %1$d</string>
     <string name="OEGeneralResetSettings">Сброс настроек</string>
     <string name="OEGeneralResetSettingsInfo">Все настройки вернутся к значениям по умолчанию, приложение перезапустится.</string>
-    <string name="OEGeneralResetSettingsDone">Настройки exteraless сброшены.</string>
+    <string name="OEGeneralResetSettingsDone">Настройки ChiperaGram сброшены.</string>
     <string name="OEGeneralDeleteAccount">Удалить аккаунт</string>
     <string name="DeepLFormalityDefault">Тон: как есть</string>
     <string name="DeepLFormalityInformal">Тон: неформальный</string>
@@ -107,28 +107,8 @@
     <string name="OEGeneralContentCapture">Доступ системы к тексту на экране</string>
     <string name="OEGeneralContentCaptureInfo">Нужен для Live Translate на Pixel и системных подсказок. Пока выключено, система не видит текст чатов, а списки листаются плавнее.</string>
     <string name="OEGeneralMapsHeader">Карты</string>
-    <string name="OEGeneralUseOsmMapInfo">Выбор места и трансляции геопозиции рисуются тайлами OpenStreetMap вместо Google Maps. Превью локаций в сообщениях по-прежнему приходят с серверов Telegram.</string>
-    <string name="OEGeneralMapProvider">Провайдер карт</string>
-    <string name="OEGeneralMapPreview">Превью локаций</string>
-    <string name="OEGeneralMapDriftingFix">Исправлять смещение карты</string>
-    <string name="OECrashTitle">exteraless аварийно завершился</string>
-    <string name="OEGeneralNetworkHeader">Сеть</string>
-    <string name="OEPrivacyFalseBottom">Двойное дно</string>
-    <string name="OEPrivacyFalseBottomShowIn">Показывать в разделе «%1$s»</string>
-    <string name="AskBeforeOpeningStory">Спрашивать перед открытием истории</string>
-    <string name="AskBeforeOpeningStoryInfo">Предлагает посмотреть её в режиме призрака, обычно или не открывать.</string>
-    <string name="AskBeforeOpeningStoryTitle">Открыть историю?</string>
-    <string name="AskBeforeOpeningStoryGhost">Смотреть в режиме призрака</string>
-    <string name="AskBeforeOpeningStoryNormal">Смотреть</string>
-    <string name="GhostScheduledSend">Отправлять отложкой</string>
-    <string name="GhostScheduledSendNotice">Пока онлайн скрыт, сообщения уходят как отложенные через 12 секунд, и вы не появляетесь в сети.</string>
-    <string name="CloudConfigIncludeApiKeys">Сохранять AI-ключи</string>
-    <string name="CloudConfigIncludeApiKeysDesc">Ключи API сервисов ИИ и перевода тоже попадут в облако.</string>
-    <string name="OECloudTitle">Облако</string>
-    <string name="OECloudHeroTitle">Настройки в облаке</string>
-    <string name="OECloudHeroText">Храните настройки exteraless в Telegram и восстанавливайте их на любом устройстве с этим аккаунтом.</string>
-    <string name="OECloudStatus">Состояние</string>
-    <string name="OECloudLocal">Это устройство</string>
+</resources>
+ocal">Это устройство</string>
     <string name="OECloudRemote">Облако</string>
     <string name="OECloudChecking">проверка…</string>
     <string name="OECloudActions">Действия</string>
