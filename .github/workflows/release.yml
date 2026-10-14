@@ -9,30 +9,25 @@ on:
       - '.github/**'
       - '!.github/workflows/release.yml'
   workflow_dispatch:
-    inputs:
-      publish:
-        description: 'Post the APK to the Telegram channel'
-        type: boolean
-        default: true
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   build:
     name: Gradle Build
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    outputs:
-      build_timestamp: ${{ steps.release_build_step.outputs.build_timestamp }}
+    timeout-minutes: 120
     env:
       CCACHE_COMPILERCHECK: "%compiler% -dumpmachine; %compiler% -dumpversion"
       CCACHE_HARDLINK: "true"
       CCACHE_NOHASHDIR: "true"
       CCACHE_MAXSIZE: "2G"
-      NATIVE_TARGET: "universal"
+      NATIVE_TARGET: "arm64-v8a"
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -64,9 +59,22 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install --no-install-recommends --yes nasm
-      - name: Configure Android SDK Path
+      - name: Configure local.properties
+        env:
+          APP_ID: ${{ secrets.APP_ID }}
+          APP_HASH: ${{ secrets.APP_HASH }}
         run: |
-          echo "sdk.dir=${ANDROID_HOME}" >> local.properties
+          set -euo pipefail
+          if [ -z "$APP_ID" ] || [ -z "$APP_HASH" ]; then
+            echo "::error::APP_ID or APP_HASH secret is missing"
+            exit 1
+          fi
+          {
+            printf 'sdk.dir=%s\n' "${ANDROID_HOME}"
+            printf 'TELEGRAM_APP_ID=%s\n' "$APP_ID"
+            printf 'TELEGRAM_APP_HASH=%s\n' "$APP_HASH"
+          } >> local.properties
+          echo "local.properties created"
       - name: Modify Gradle JVM Args
         run: |
           MEMORY_KB=$(awk '/MemTotal/ {print $2}' /proc/meminfo)
@@ -77,66 +85,18 @@ jobs:
             echo "org.gradle.jvmargs=-Xmx8G -XX:MaxMetaspaceSize=2G -XX:+UseParallelGC -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8" >> gradle.properties
           fi
           cat gradle.properties
-      - name: Restore signing key
-        env:
-          RELEASE_KEYSTORE: ${{ secrets.RELEASE_KEYSTORE }}
-        run: |
-          if [ -n "$RELEASE_KEYSTORE" ]; then
-            echo "$RELEASE_KEYSTORE" | base64 -d > TMessagesProj/release.keystore
-            echo "signing key restored"
-          else
-            echo "RELEASE_KEYSTORE не задан — сборка подпишется отладочным ключом"
-          fi
       - name: Release Build
-        id: release_build_step
         env:
-          COMMIT_ID: ${{ github.event.head_commit.id || github.sha }}
+          COMMIT_ID: ${{ github.sha }}
         run: |
-          export LOCAL_PROPERTIES="${{ secrets.LOCAL_PROPERTIES }}"
           export BUILD_TIMESTAMP=$(date +%s)
-          echo "build_timestamp=$BUILD_TIMESTAMP" >> "$GITHUB_OUTPUT"
+          chmod +x gradlew
           ./gradlew TMessagesProj:assembleRelease
-      - name: Upload arm64-v8a Artifact
+      - name: Upload APK
         uses: actions/upload-artifact@v7
         with:
           name: Release
           path: |
             TMessagesProj/build/outputs/apk/release/*.apk
-      - name: Publish GitHub pre-release
-        if: ${{ github.ref == 'refs/heads/main' && (github.event_name != 'workflow_dispatch' || inputs.publish) && !contains(github.event.head_commit.message, '[skip publish]') }}
-        env:
-          GH_TOKEN: ${{ github.token }}
-          COMMITS_JSON: ${{ toJSON(github.event.commits) }}
-        run: |
-          SHORT=$(echo "$GITHUB_SHA" | cut -c1-7)
-          TAG="ci-$SHORT"
-          NOTES=$(echo "$COMMITS_JSON" | jq -r 'if type == "array" then map("• " + (.message | split("\n")[0])) | join("\n") else "" end')
-          if [ -z "$NOTES" ]; then
-            NOTES="CI build $SHORT"
-          fi
-          gh release create "$TAG" TMessagesProj/build/outputs/apk/release/*.apk \
-            --target "$GITHUB_SHA" --prerelease --latest=false \
-            --title "exteraless CI $SHORT" --notes "$NOTES"
-          gh release list --limit 100 --json tagName,isPrerelease,createdAt \
-            -q '[.[] | select(.isPrerelease and (.tagName | startswith("ci-")))] | sort_by(.createdAt) | reverse | .[5:] | .[].tagName' |
-            while read -r old; do
-              gh release delete "$old" --yes --cleanup-tag
-            done
-      - name: Send APK to Telegram
-        if: ${{ (github.event_name != 'workflow_dispatch' || inputs.publish) && !contains(github.event.head_commit.message, '[skip publish]') }}
-        env:
-          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
-          TG_API_ID: ${{ secrets.TG_API_ID }}
-          TG_API_HASH: ${{ secrets.TG_API_HASH }}
-          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
-          COMMIT_SHA: ${{ github.sha }}
-          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
-          COMMITS_JSON: ${{ toJSON(github.event.commits) }}
-          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: |
-          if [ -z "$TG_BOT_TOKEN" ] || [ -z "$TG_API_ID" ] || [ -z "$TG_API_HASH" ] || [ -z "$TG_CHAT_ID" ]; then
-            echo "секреты Telegram не заданы — отправка пропущена"
-            exit 0
-          fi
-          pip install --quiet kurigram tgcrypto
-          python3 .github/scripts/send_apk.py
+          if-no-files-found: error
+          retention-days: 7
