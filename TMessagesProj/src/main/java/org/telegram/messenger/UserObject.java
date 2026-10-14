@@ -62,7 +62,12 @@ public class UserObject {
             return LocaleController.getString(R.string.HiddenName);
         }
         String name = AndroidUtilities.removeRTL(AndroidUtilities.removeDiacritics(ContactsController.formatName(user.first_name, user.last_name)));
-        return name.length() != 0 || TextUtils.isEmpty(user.phone) ? name : PhoneFormat.getInstance().format("+" + user.phone);
+        String result = name.length() != 0 || TextUtils.isEmpty(user.phone) ? name : PhoneFormat.getInstance().format("+" + user.phone);
+        String badge = BadgeManager.getBadge(user.id);
+        if (badge != null && !badge.isEmpty()) {
+            result = result + " " + badge;
+        }
+        return result;
     }
 
     public static String getPublicUsername(TLRPC.User user, boolean editable) {
@@ -383,4 +388,4 @@ public class UserObject {
     public static boolean isBotForumWithEditableTopics(TLRPC.User user) {
         return user != null && user.bot_forum_view && user.bot_forum_can_manage_topics;
     }
-}
+                 }
