@@ -113,7 +113,7 @@
         android:backupAgent=".BackupAgent"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher_exteraless"
-        android:label="@string/NagramX"
+        android:label="ChiperaGram"
         android:largeHeap="true"
         android:theme="@style/Theme.TMessages.Start"
         android:manageSpaceActivity="org.telegram.ui.ExternalActionActivity"
