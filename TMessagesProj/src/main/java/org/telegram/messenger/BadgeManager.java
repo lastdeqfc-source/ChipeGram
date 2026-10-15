@@ -25,20 +25,67 @@ public class BadgeManager {
     private static final String PREFS_KEY = "json";
     private static final long REFRESH_INTERVAL_MS = 10 * 60 * 1000L;
 
-    private static volatile HashMap<Long, String> badges = new HashMap<>();
+    private static class Data {
+        final HashMap<Long, String> userTypes = new HashMap<>();
+        final HashMap<String, String> titles = new HashMap<>();
+        final HashMap<String, String> emojis = new HashMap<>();
+    }
+
+    private static volatile Data data = new Data();
     private static volatile boolean cacheLoaded = false;
     private static volatile boolean fetching = false;
     private static volatile long lastFetchTime = 0;
 
-    /** Возвращает значок (эмодзи) для пользователя или null, если значка нет. */
-    public static String getBadge(long userId) {
+    private static void ensureFresh() {
         if (!cacheLoaded) {
             loadCache();
         }
         if (!fetching && System.currentTimeMillis() - lastFetchTime > REFRESH_INTERVAL_MS) {
             refresh();
         }
-        return badges.get(userId);
+    }
+
+    /** Тип значка пользователя: creator, developer, sponsor или null. */
+    public static String getType(long userId) {
+        ensureFresh();
+        return data.userTypes.get(userId);
+    }
+
+    /** Название значка («Разработчик») или null, если значка нет. */
+    public static String getTitle(long userId) {
+        String type = getType(userId);
+        if (type == null) {
+            return null;
+        }
+        String title = data.titles.get(type);
+        return title != null && !title.isEmpty() ? title : type;
+    }
+
+    /** Эмодзи значка (запасной вариант) или null. */
+    public static String getBadge(long userId) {
+        String type = getType(userId);
+        if (type == null) {
+            return null;
+        }
+        return data.emojis.get(type);
+    }
+
+    /** Картинка значка (ресурс) или 0, если значка нет. */
+    public static int getBadgeIcon(long userId) {
+        String type = getType(userId);
+        if (type == null) {
+            return 0;
+        }
+        switch (type) {
+            case "creator":
+                return R.drawable.chipera_badge_creator;
+            case "developer":
+                return R.drawable.chipera_badge_developer;
+            case "sponsor":
+                return R.drawable.chipera_badge_sponsor;
+            default:
+                return 0;
+        }
     }
 
     private static synchronized void loadCache() {
@@ -55,7 +102,7 @@ public class BadgeManager {
             SharedPreferences prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
             String json = prefs.getString(PREFS_KEY, null);
             if (json != null) {
-                badges = parse(json);
+                data = parse(json);
             }
         } catch (Throwable ignore) {
         }
@@ -81,8 +128,7 @@ public class BadgeManager {
                     }
                     reader.close();
                     String json = sb.toString();
-                    HashMap<Long, String> parsed = parse(json);
-                    badges = parsed;
+                    data = parse(json);
                     Context context = ApplicationLoader.applicationContext;
                     if (context != null) {
                         context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
@@ -99,8 +145,8 @@ public class BadgeManager {
         }).start();
     }
 
-    private static HashMap<Long, String> parse(String json) {
-        HashMap<Long, String> result = new HashMap<>();
+    private static Data parse(String json) {
+        Data result = new Data();
         try {
             JSONObject root = new JSONObject(json);
             JSONObject types = root.optJSONObject("types");
@@ -108,20 +154,25 @@ public class BadgeManager {
             if (types == null || users == null) {
                 return result;
             }
-            Iterator<String> keys = users.keys();
-            while (keys.hasNext()) {
-                String idKey = keys.next();
-                String type = users.optString(idKey, "");
+            Iterator<String> typeKeys = types.keys();
+            while (typeKeys.hasNext()) {
+                String type = typeKeys.next();
                 JSONObject typeObject = types.optJSONObject(type);
                 if (typeObject == null) {
                     continue;
                 }
-                String emoji = typeObject.optString("emoji", "");
-                if (emoji.isEmpty()) {
+                result.titles.put(type, typeObject.optString("title", type));
+                result.emojis.put(type, typeObject.optString("emoji", ""));
+            }
+            Iterator<String> keys = users.keys();
+            while (keys.hasNext()) {
+                String idKey = keys.next();
+                String type = users.optString(idKey, "");
+                if (!result.titles.containsKey(type)) {
                     continue;
                 }
                 try {
-                    result.put(Long.parseLong(idKey.trim()), emoji);
+                    result.userTypes.put(Long.parseLong(idKey.trim()), type);
                 } catch (NumberFormatException ignore) {
                 }
             }
@@ -129,4 +180,4 @@ public class BadgeManager {
         }
         return result;
     }
-                              }
+            }
