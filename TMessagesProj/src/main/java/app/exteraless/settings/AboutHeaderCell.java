@@ -35,8 +35,8 @@ import org.telegram.ui.Components.LayoutHelper;
  */
 public class AboutHeaderCell extends LinearLayout {
 
-    /** Цвет подложки иконки приложения, как R.color.ic_background в exteraGram. */
-    public static final int LOGO_BACKGROUND = 0xFFE83030;
+    /** Цвет подложки иконки приложения (под картинкой логотипа). */
+    public static final int LOGO_BACKGROUND = 0xFF2A1060;
 
     /** Путь формы логотипа. Считается один раз, сбрасывается при смене режима. */
     private Path shapePath;
@@ -65,7 +65,7 @@ public class AboutHeaderCell extends LinearLayout {
         };
         logo.setScaleType(ImageView.ScaleType.CENTER_CROP);
         logo.setBackgroundColor(LOGO_BACKGROUND);
-        logo.setImageResource(R.drawable.exteraless_icon);
+        logo.setImageResource(R.drawable.chipera_logo);
         logo.setOnLongClickListener(v -> {
             IconPacksConfig.toggleSystemIconShape();
             IconShapeHelper.invalidate();
@@ -84,7 +84,7 @@ public class AboutHeaderCell extends LinearLayout {
         title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
         title.setGravity(Gravity.CENTER);
         title.setSingleLine(true);
-        title.setText(LocaleController.getString(R.string.OpenExtera));
+        title.setText("ChiperaGram");
         addView(title, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT,
                 Gravity.TOP | Gravity.CENTER_HORIZONTAL, 50, 16, 50, 0));
 
